@@ -1,0 +1,26 @@
+version: "3"
+services:
+        web:
+                build: .
+                expose:
+                        - "8000"
+                networks:
+                        extnetwork:
+                                ipv4_address: 192.168.0.2
+        nginx:
+                build: ./Components
+                expose:
+                        - "80"
+                ports:
+                        - "80:80"
+                depends_on:
+                        - web
+                restart: always
+                networks:
+                        extnetwork:
+                                ipv4_address: 192.168.0.4
+networks:
+        extnetwork:
+                ipam:
+                        config:
+                                - subnet: 192.168.0.0/24
